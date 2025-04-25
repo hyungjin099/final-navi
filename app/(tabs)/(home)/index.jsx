@@ -4,8 +4,10 @@ import FeedItem from '../../../components/FeedItem';
 import { dummyData } from '@/apis/dummyData';
 import {colors} from '@/constants/colorConstant'
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { useRouter } from 'expo-router';
 
 const HomeScreen = () => {
+  const router =useRouter();
   const data = dummyData;
 
   return (
@@ -21,7 +23,7 @@ const HomeScreen = () => {
           styles.writeBtn,
           pressed && styles.pressed
         ]}
-        onPress={() => {}}
+        onPress={() => {router.push('/regFeed')}}
       >
         <Ionicons name="pencil-outline" size={24} color="white" />
       </Pressable>

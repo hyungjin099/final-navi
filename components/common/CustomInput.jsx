@@ -14,7 +14,11 @@ const CustomInput = ({label, isPw=false, ...props}) => {
       }
       <View style={styles.container}>
         <TextInput 
-          style={[styles.input, isFocused && styles.focused]}
+          style={[
+            styles.input, 
+            isFocused && styles.focused,
+            props.multiline && styles.multiline
+          ]}
           secureTextEntry={isPw}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
@@ -48,5 +52,8 @@ const styles = StyleSheet.create({
   },
   focused :{
     borderColor : colors.ORANGE_700
+  },
+  multiline:{
+    height:100
   }
 })
