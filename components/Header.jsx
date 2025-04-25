@@ -8,9 +8,7 @@ import { logoutReducer } from '../redux/authSlice';
 
 const Header = () => {
   const router = useRouter();
-  const auth = useSelector(state => state.auth);
-  console.log(11);
-  console.log(auth);
+  const auth = useSelector(state => state.auth); //{token : fsdfsd, isLogin : true}
 
   const dispatch = useDispatch();
 

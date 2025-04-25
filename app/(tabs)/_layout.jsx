@@ -10,7 +10,7 @@ const TabLayout = () => {
 
   // 로그인이 필요한 탭 목록
   const protectedTabs = ['profile', 'search']; // 로그인이 필요한 탭 이름들
-
+ 
   // 탭 접근 권한 확인 함수
   const checkAuthForTab = (tabName) => {
     if (protectedTabs.includes(tabName) && !auth.isLogin) {
@@ -22,7 +22,6 @@ const TabLayout = () => {
 
   return (
     <View style={styles.container}>
-       <Header/> 
       <View style={styles.tabArea}>
         <Tabs screenOptions={{
            headerShown:false,
@@ -50,7 +49,7 @@ const TabLayout = () => {
             options={{title : '검색'}}
             listeners={{
               tabPress: (e) => {
-                if (!checkAuthForTab('profile')) {
+                if (!checkAuthForTab('search')) {
                   // 기본 탭 이벤트 방지
                   e.preventDefault();
                   // 로그인 페이지로 이동

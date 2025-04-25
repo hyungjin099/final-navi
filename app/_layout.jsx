@@ -15,10 +15,12 @@ import { jwtDecode } from 'jwt-decode';
 SplashScreen.preventAutoHideAsync();
 
 // 인증 상태를 관리하는 컴포넌트
-function AuthManager({ children }) {
+// 앱 실행 직후 토큰을 SecureStorage에 추출
+// 추출할 동안 ActivityIndicator 그리고, 추출이 다 되면 원래 그림 그리기
+const AuthManager = ({ children }) =>  {
   const [isReady, setIsReady] = useState(false);
   const dispatch = useDispatch();
-  const auth = useSelector(state => state.auth);
+  const auth = useSelector(state => state.auth); //{token : null, isLogin : false}
 
   // 토큰 유효성 검사 및 로그인 상태 관리 함수
   const validateAndLoadToken = async () => {
@@ -26,24 +28,14 @@ function AuthManager({ children }) {
       // SecureStore에서 토큰 가져오기
       const token = await SecureStore.getItemAsync('accessToken');
       
-      // 토큰이 없으면 로그아웃 상태로 설정
+      // 토큰이 없으면 함수 종료
       if (!token) {
-        dispatch(logoutReducer());
         return;
       }
       
-      // 토큰 디코딩 및 만료 확인
-      const decoded = jwtDecode(token);
-      const currentTime = Date.now() / 1000;
-      
-      // 토큰이 만료되었으면 삭제하고 로그아웃
-      if (decoded.exp < currentTime) {
-        await SecureStore.deleteItemAsync('accessToken');
-        dispatch(logoutReducer());
-      } else {
-        // 유효한 토큰이면 로그인 상태로 설정
-        dispatch(loginReducer(token));
-      }
+       // 유효한 토큰이면 로그인 상태로 설정
+       dispatch(loginReducer(token));
+       
     } catch (error) {
       console.error('토큰 검증 중 오류:', error);
       dispatch(logoutReducer());
